@@ -1,0 +1,1 @@
+{"errorType":"ReferenceError","errorMessage":"context is not defined","trace":["ReferenceError: context is not defined","    at exports.handler (/var/task/index.js:5:36)","    at Runtime.handleOnceNonStreaming (file:///var/runtime/index.mjs:1206:29)"]}

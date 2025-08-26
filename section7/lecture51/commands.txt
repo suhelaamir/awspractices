@@ -1,0 +1,15 @@
+1- Get Log group name to see the logs using AWS cli command
+
+windows:
+aws logs describe-log-groups `
+    --query logGroups[*].logGroupName
+
+2. List log streams for that log group:
+aws logs describe-log-streams `
+    --log-group-name '/aws/lambda/my-function2' `
+    --query logStreams[*].logStreamName
+
+3. Get Log events for that stream:
+aws logs get-log-events `
+    --log-group-name '/aws/lambda/my-function2' `
+    --log-stream-name '2025/08/21/[$LATEST]620fc2f889984973a1bf9216591eb46c'

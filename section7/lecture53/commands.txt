@@ -1,0 +1,29 @@
+1. install required dependencies into node_modules
+2. zip function code
+3. update lambda function with cli 
+4. invoke update lambda function with cli
+
+1. install required dependencies into node_modules
+run command:
+npm install aws-xray-sdk
+
+2. zip function code
+windows:
+Compress-Archive index.js function.zip
+manual-
+go to index.js
+    Right click index.js
+        Send to -> Compress (zip) folder
+3. Update function code
+command:
+windows:
+aws lambda update-function-code `
+    --function-name my-function2 `
+    --zip-file fileb://function.zip
+
+4. Invoke updated lambda function with cli
+aws lambda invoke `
+    --function-name my-function2 `
+    --cli-binary-format raw-in-base64-out `
+    --payload file://evnet.json `
+    response.json

@@ -1,0 +1,23 @@
+AWS Lambda function Logging in node.js example
+
+1. Develop lambda function code
+2. zip function code
+3. update lambda function with CLI
+4. invoke udpated lambda function with CLI
+
+1. Develop lambda function
+-- develop index.js lambda funciton
+2. Zip lambda function
+windows:
+command:
+Compress-Archive index.js function.zip
+3. update lambda function with cli
+aws lambda update-function-code `
+    --function-name my-function3 `
+    --zip-file fileb://function.zip
+4. Invoke our lambda function code
+aws lambda invoke `
+    --function-name my-function3 `
+    --cli-binary-format raw-in-base64-out `
+    --payload file://event.json `
+    response.json

@@ -1,0 +1,33 @@
+1. Develop the lambda function
+2. zip the function to Deploy
+3. update funciton with cli
+4. invoke update funciton with CLI
+
+1. Develop lambda code to update
+index.js
+
+2. zip lambda code to update
+windows
+command: Compress-Archive index.js function.zip
+
+3. update function code
+Run command
+windows:
+aws lambda update-function-code `
+    --function-name my-function2 `
+    --zip-file fileb://function.zip
+4. Invoke lambda function with cli
+create event.js file into lecture folder 
+event.js
+{
+    "num1": 3,
+    "num2": 4
+}
+invoke lambda function by passing event.js file
+
+windows:
+aws lambda invoke `
+    --function-name my-function2 `
+    --cli-binary-format raw-in-base64-out `
+    --payload file://event.json `
+    response.json

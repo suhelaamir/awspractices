@@ -1,0 +1,11 @@
+Invoke AWS Lambda funciton with below command
+
+AWS Lambda CLI reference Documentation
+https://docs.aws.amazon.com/cli/latest/reference/lambda/
+
+windows:
+aws lambda invoke `
+    --function-name my-function2 `
+    --cli-binary-format raw-in-base64-out `
+    --payload file://event.json `
+    response.json

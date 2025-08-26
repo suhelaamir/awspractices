@@ -1,0 +1,32 @@
+Official Documentation regarding the context object with node.js
+https://docs.aws.amazon.com/lambda/latest/dg/nodejs-context.html
+
+1. Develop Lambda function code
+2. Zip function code
+3. Create Lambda funciton with CLI
+4. Invoke updated lambda function with CLI
+
+---
+1. Developed the index.js lambda function
+2. Zip function code
+windows:
+Comperess-Archive index.js funciton.zip
+3. Create lambda function with CLI
+    1. Get Role.
+    aws iam get-role --role-name lambda-ex
+    2. Get Role ARN
+    "Arn": "arn:aws:iam::753965153348:role/lambda-ex"
+4. Create function in AWS
+aws lambda create-function `
+    --function-name my-function3 `
+    --runtime nodejs22.x `
+    --zip-file fileb://function.zip `
+    --handler index.handler `
+    --role arn:aws:iam::753965153348:role/lambda-ex
+
+5. Invoke lambda function
+    aws lambda invoke `
+        --function-name my-function3 `
+        --cli-binary-format raw-in-base64-out `
+        --payload file://event.json `
+        response.json
