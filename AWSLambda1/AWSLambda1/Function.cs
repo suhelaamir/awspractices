@@ -32,8 +32,25 @@ public class Function
         {
             "GET" => await HandleGetRequest(request),
             "POST" => await HandlePostRequest(request),
+            "DELETE" => await HandleDeleteRequest(request),
         };
     }
+
+    private async Task<APIGatewayHttpApiV2ProxyResponse?> HandleDeleteRequest(APIGatewayHttpApiV2ProxyRequest request)
+    {
+        request.PathParameters.TryGetValue("userId", out var userId);
+        if (userId == null || !int.TryParse(userId, out var input))
+        {
+            return BadRequest("Invalid user in body");
+        }
+        await _dynamoDBContext.DeleteAsync<User>(input);
+        return OkResponse();
+    }
+    private static APIGatewayHttpApiV2ProxyResponse OkResponse() => 
+        new APIGatewayHttpApiV2ProxyResponse()
+    {
+        StatusCode = 200
+    };
 
     private async Task<APIGatewayHttpApiV2ProxyResponse?> HandlePostRequest(APIGatewayHttpApiV2ProxyRequest request)
     {
@@ -67,9 +84,6 @@ public class Function
         {
             return null;
         }
-        //using var client = new AmazonDynamoDBClient();
-        
-
         var user = await _dynamoDBContext.LoadAsync<User>(input);
         if (user != null)
         {
