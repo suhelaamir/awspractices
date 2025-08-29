@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWSLambda1", "AWSLambda1\AWSLambda1.csproj", "{48986704-EECE-4BE2-A8AF-3A39D3CB3EEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWSLambda2-SQSTrigger", "AWSLambda2-SQSTrigger\AWSLambda2-SQSTrigger.csproj", "{78DB1D81-B910-4F65-8540-256831E8798A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{48986704-EECE-4BE2-A8AF-3A39D3CB3EEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48986704-EECE-4BE2-A8AF-3A39D3CB3EEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48986704-EECE-4BE2-A8AF-3A39D3CB3EEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78DB1D81-B910-4F65-8540-256831E8798A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78DB1D81-B910-4F65-8540-256831E8798A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78DB1D81-B910-4F65-8540-256831E8798A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78DB1D81-B910-4F65-8540-256831E8798A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
