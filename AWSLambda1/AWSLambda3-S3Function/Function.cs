@@ -15,6 +15,9 @@ namespace AWSLambda3_S3Function;
 
 public class Function
 {
+    /// <summary>
+    /// The Amazon S3 client used to process S3 objects.
+    /// </summary>
     IAmazonS3 S3Client { get; set; }
     private readonly IDynamoDBContext _dynamoDBContext;
 
