@@ -1,10 +1,15 @@
+using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.S3Events;
 using Amazon.S3;
 using Amazon.S3.Util;
+using Amazon.SecretsManager;
+using Amazon.SecretsManager.Model;
+using Aspose.Cells;
 using ClosedXML.Excel;
+using System.Security;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -18,8 +23,10 @@ public class Function
     /// <summary>
     /// The Amazon S3 client used to process S3 objects.
     /// </summary>
-    IAmazonS3 S3Client { get; set; }
+    public IAmazonS3 S3Client { get; set; }
     private readonly IDynamoDBContext _dynamoDBContext;
+    private string TableName = "User";
+    private string _workbookName;
 
     /// <summary>
     /// Default constructor. This constructor is used by Lambda to construct the instance. When invoked in a Lambda environment
@@ -28,6 +35,7 @@ public class Function
     /// </summary>
     public Function()
     {
+        TableName = "AmirTable16Oct";
         S3Client = new AmazonS3Client();
         _dynamoDBContext = new DynamoDBContext(new AmazonDynamoDBClient());
     }
@@ -36,9 +44,10 @@ public class Function
     /// Constructs an instance with a preconfigured S3 client. This can be used for testing outside of the Lambda environment.
     /// </summary>
     /// <param name="s3Client">The service client to access Amazon S3.</param>
-    public Function(IAmazonS3 s3Client)
+    public Function(IAmazonS3 s3Client, IDynamoDBContext dynamoDBContext)
     {
         this.S3Client = s3Client;
+        this._dynamoDBContext = dynamoDBContext;
     }
 
     /// <summary>
@@ -50,6 +59,11 @@ public class Function
     /// <returns></returns>
     public async Task FunctionHandler(S3Event evnt, ILambdaContext context)
     {
+        string secret = await GetSecret(context);
+        // suppose `secretString` is the string you got from Secrets Manager
+        var secretJson = JsonDocument.Parse(secret);
+        var myDetails = secretJson.RootElement.GetProperty("myDetails").GetString();
+        context.Logger.LogInformation("secret manager value myDetails: {0}", myDetails);
         var eventRecords = evnt.Records ?? new List<S3Event.S3EventNotificationRecord>();
         foreach (var record in eventRecords)
         {
@@ -63,6 +77,9 @@ public class Function
             {
                 using var response = await this.S3Client.GetObjectAsync(s3Event.Bucket.Name, s3Event.Object.Key);
                 using var stream = response.ResponseStream;
+                Workbook workbookAspose = new Workbook(stream);
+                _workbookName = workbookAspose.Worksheets[0].Name;
+                context.Logger.LogInformation("Workbook name: {0}", _workbookName);
                 using var workbook = new XLWorkbook(stream);
                 var worksheet = workbook.Worksheets.First();
 
@@ -88,7 +105,7 @@ public class Function
                     NumberHandling = JsonNumberHandling.AllowReadingFromString
                 };
                 var users = JsonSerializer.Deserialize<List<User>>(json, options);
-                context.Logger.LogInformation("Amir");
+                context.Logger.LogInformation("Amir table name: {0}", TableName);
                 if (users != null)
                 {
                     foreach (var user in users)
@@ -113,6 +130,39 @@ public class Function
                 throw;
             }
         }
+    }
+    static async Task<string> GetSecret(ILambdaContext context)
+    {
+        string secretName = "tableName";
+        string region = "us-east-2";
+
+        IAmazonSecretsManager client = new AmazonSecretsManagerClient(RegionEndpoint.GetBySystemName(region));
+
+        GetSecretValueRequest request = new GetSecretValueRequest
+        {
+            SecretId = secretName,
+            VersionStage = "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified.
+        };
+
+        GetSecretValueResponse response;
+
+        try
+        {
+            response = await client.GetSecretValueAsync(request);
+        }
+        catch (Exception e)
+        {
+            context.Logger.LogInformation("Error retrieving secret: " + e.Message);
+            // For a list of the exceptions thrown, see
+            // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+            throw e;
+        }
+        context.Logger.LogInformation("Error retrieving secret initiate");
+        string secret = response.SecretString;
+        context.Logger.LogInformation("Error retrieving secret: " + secret);
+
+        // Your code goes here
+        return secret;
     }
 }
 [DynamoDBTable("User")]
