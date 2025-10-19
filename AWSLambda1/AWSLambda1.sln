@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWSLambda3-S3Function", "AW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadBunchOfFile", "UploadBunchOfFile\UploadBunchOfFile.csproj", "{730D234C-6483-4462-B0EB-A88ECCC06768}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWSLambda3-S3FunctionTests", "AWSLambda3-S3FunctionTests\AWSLambda3-S3FunctionTests.csproj", "{B9253E3F-E7DE-45C5-A19E-F681CD58F7A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{730D234C-6483-4462-B0EB-A88ECCC06768}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{730D234C-6483-4462-B0EB-A88ECCC06768}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{730D234C-6483-4462-B0EB-A88ECCC06768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9253E3F-E7DE-45C5-A19E-F681CD58F7A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9253E3F-E7DE-45C5-A19E-F681CD58F7A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9253E3F-E7DE-45C5-A19E-F681CD58F7A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9253E3F-E7DE-45C5-A19E-F681CD58F7A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
