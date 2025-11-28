@@ -35,4 +35,4 @@ jobs:
 
       - name: 🚀 Deploy Lambda Function
         working-directory: AWSLambda1/AWSLambda3-S3Function
-        run: dotnet lambda deploy-function s3lambdafunction1
+        run: dotnet lambda deploy-function s3lambdafunction

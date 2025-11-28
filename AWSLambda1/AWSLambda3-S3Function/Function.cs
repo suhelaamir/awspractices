@@ -144,7 +144,7 @@ public class Function
     }
     static async Task<string> GetSecret(ILambdaContext context)
     {
-        Console.WriteLine("Amir GetSecret started");
+        Console.WriteLine("Amir GetSecret started on 28Nov");
         string secretName = "tableName";
         string region = "us-east-2";
 
