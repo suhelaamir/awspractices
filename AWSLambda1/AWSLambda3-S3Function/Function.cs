@@ -59,9 +59,20 @@ public class Function
     /// <returns></returns>
     public async Task FunctionHandler(S3Event evnt, ILambdaContext context)
     {
-        string secret = await GetSecret(context);
+        var secret = await GetSecret(context);
         // suppose `secretString` is the string you got from Secrets Manager
         var secretJson = JsonDocument.Parse(secret);
+        if(secretJson.RootElement.TryGetProperty("myDetails", out var constElemtn))
+        {
+            context.Logger.LogInformation("Found myDetails property: {0}", constElemtn.GetString());
+        }
+        if (secretJson.RootElement.TryGetProperty("UserId", out var userId) &&
+            secretJson.RootElement.TryGetProperty("Password", out var password) &&
+            secretJson.RootElement.TryGetProperty("DataSource", out var dataSource)
+            )
+        {
+            context.Logger.LogInformation($"User ID: {userId.GetString()}, Password: {password.GetString()}, DataSource: {dataSource.GetString()}");
+        }
         var myDetails = secretJson.RootElement.GetProperty("myDetails").GetString();
         context.Logger.LogInformation("secret manager value myDetails: {0}", myDetails);
         var eventRecords = evnt.Records ?? new List<S3Event.S3EventNotificationRecord>();
@@ -133,6 +144,7 @@ public class Function
     }
     static async Task<string> GetSecret(ILambdaContext context)
     {
+        Console.WriteLine("Amir GetSecret started");
         string secretName = "tableName";
         string region = "us-east-2";
 
@@ -157,7 +169,7 @@ public class Function
             // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
             throw e;
         }
-        context.Logger.LogInformation("Error retrieving secret initiate");
+        context.Logger.LogInformation($"Error retrieving secret initiate: {response.SecretString}");
         string secret = response.SecretString;
         context.Logger.LogInformation("Error retrieving secret: " + secret);
 
