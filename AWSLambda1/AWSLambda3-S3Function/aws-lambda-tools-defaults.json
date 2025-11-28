@@ -13,7 +13,7 @@
   "function-timeout": 30,
   "function-handler": "AWSLambda3-S3Function::AWSLambda3_S3Function.Function::FunctionHandler",
   "framework": "net8.0",
-  "function-name": "s3lambdafunction",
+  "function-name": "s3lambdafunction1",
   "package-type": "Zip",
   "function-role": "arn:aws:iam::753965153348:role/lambda_exec_s3lambdafunction",
   "function-architecture": "x86_64",
